@@ -3,7 +3,7 @@ main = do
   input <- getLine
   let count = read input :: Int
   let ioVectors = consume count (\() -> parseVector <$> getLine)
-  let ioAccumulated = foldl1 (\ioAcc ioVector -> ioAcc >>= (\acc -> addVector acc <$> ioVector)) ioVectors
+  let ioAccumulated = foldl1 (\ioAcc ioVector -> (addVector <$> ioAcc) <*> ioVector) ioVectors
   accumulated <- ioAccumulated
   putStrLn $ if checkZeroVector accumulated then "YES" else "NO"
 
